@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\ItemRepository.cs" />
+    <Compile Include="DAL\ReceiptRepository.cs" />
+    <Compile Include="Exceptions.cs" />
     <Compile Include="Model\EntityBase.cs" />
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\Receipt.cs" />
