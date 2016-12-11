@@ -51,6 +51,8 @@ namespace CashRegister.Controllers
             Console.WriteLine("5. Receipt report");
             if (loggedAdmin)
                 Console.WriteLine("6. Accout management");
+            if (loggedAdmin || loggedBasic)
+                Console.WriteLine("9. Logout");
             Console.WriteLine("0. Exit application");
             Console.Write("Select option by typing the number in front of it: ");
             LoggedActions();
@@ -120,6 +122,10 @@ namespace CashRegister.Controllers
                     {
                         Console.WriteLine("You are not authorized for this option.");
                     }
+                    break;
+                case 9:
+                    if (loggedBasic || loggedAdmin)
+                        Logout();
                     break;
                 default:
                     LoggedMenu();
@@ -209,6 +215,17 @@ namespace CashRegister.Controllers
             }
             Console.WriteLine();
             LoggedMenu();
+        }
+
+        private static void Logout()
+        {
+            if (loggedAdmin || loggedBasic || currentlyLogged != null)
+            {
+                Console.WriteLine("You have been successfully logged out.");
+                currentlyLogged = null;
+            }
+
+            LoginMenu();
         }
 
         private static void AdminInfo()

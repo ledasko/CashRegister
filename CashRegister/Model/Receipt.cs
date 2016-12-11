@@ -9,14 +9,14 @@ namespace CashRegister.Model
     [Serializable]
     class Receipt : EntityBase<int>
     {
-        public Receipt(DateTime dateOfPurchase, List<Quantity> receiptList) : base(0)
+        public Receipt(int id, DateTime dateOfPurchase, List<Quantity> receiptList) : base(id)
         {
             DateOfPurchase = dateOfPurchase;
             ReceiptList = receiptList;
         }
-        DateTime DateOfPurchase { get; set; }
-        List<Quantity> ReceiptList { get; set; }
-        float Total { get; set; }
+        public DateTime DateOfPurchase { get; set; }
+        public List<Quantity> ReceiptList { get; set; }
+        public float Total { get; set; }
 
     }
 }

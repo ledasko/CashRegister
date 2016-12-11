@@ -16,7 +16,6 @@ namespace CashRegister.DAL
 
         public void Add(User user)
         {
-            GetAllUser();
             if (_users.Any(u => u.Username == user.Username))
             {
                 throw new UsernameAlreadyExists();
@@ -63,7 +62,6 @@ namespace CashRegister.DAL
 
         public void Save()
         {
-            Console.WriteLine("Saving..");
             using (Stream stream = File.Open("user.bin", FileMode.OpenOrCreate))
             {
                 var bFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();

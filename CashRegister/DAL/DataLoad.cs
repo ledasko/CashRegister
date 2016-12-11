@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 using CashRegister.Model;
 using CashRegister.Accessories;
 using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace CashRegister.DAL
 {

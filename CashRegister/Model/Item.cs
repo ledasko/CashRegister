@@ -26,7 +26,9 @@ namespace CashRegister.Model
 
         public string ToString()
         {
-            return Volume.Equals(Quantify.KG) ? (Id + ". " + Name + " - " + Price + "$ (Tax: " + TaxModifier + ") Measured in kilograms.") : (Id + ". " + Name + " - " + Price + "$ (Tax: " + TaxModifier + ") Measured in pieces.");
+            return Volume.Equals(Quantify.KG)
+                ? (Id + ". " + Name + " - " + Price + "$ (Tax: " + TaxModifier + "%) Measured in kilograms.")
+                : (Id + ". " + Name + " - " + Price + "$ (Tax: " + TaxModifier + "%) Measured in pieces.");
         }
     }
 }

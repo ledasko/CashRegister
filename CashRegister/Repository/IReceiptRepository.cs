@@ -17,5 +17,6 @@ namespace CashRegister.Repository
 
         Receipt GetById(int receiptId);
         List<Receipt> GetByDate(DateTime receiptDate);
+        void LoadAll();
     }
 }

@@ -17,8 +17,6 @@ namespace CashRegister.DAL
         private static int _nextId = 1;
         public void Add(Item item)
         {
-            LoadAll();
-
             if (_items.Any(i => i.Name == item.Name))
             {
                 throw new ItemAlreadyExists();
@@ -45,8 +43,7 @@ namespace CashRegister.DAL
 
         public void Save()
         {
-            Console.WriteLine("Saving..");
-            using (Stream stream = File.Open("item.bin", FileMode.OpenOrCreate))
+            using (Stream stream = File.Open("item.bin", FileMode.Create))
             {
                 var bFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
 
