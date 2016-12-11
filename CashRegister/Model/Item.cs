@@ -23,5 +23,10 @@ namespace CashRegister.Model
         public float Price { get; set; }
         public int TaxModifier { get; set; }
         public Quantify Volume { get; set; }
+
+        public string ToString()
+        {
+            return Volume.Equals(Quantify.KG) ? (Id + ". " + Name + " - " + Price + "$ (Tax: " + TaxModifier + ") Measured in kilograms.") : (Id + ". " + Name + " - " + Price + "$ (Tax: " + TaxModifier + ") Measured in pieces.");
+        }
     }
 }

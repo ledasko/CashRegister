@@ -17,7 +17,7 @@ namespace CashRegister.DAL
         private static int _nextId = 1;
         public void Add(Item item)
         {
-            GetAll();
+            LoadAll();
 
             if (_items.Any(i => i.Name == item.Name))
             {
@@ -59,7 +59,7 @@ namespace CashRegister.DAL
             throw new NotImplementedException();
         }
 
-        public void GetAll()
+        public void LoadAll()
         {
             using (Stream stream = File.Open("item.bin", FileMode.Open))
             {
@@ -77,6 +77,12 @@ namespace CashRegister.DAL
                     _nextId = t + 1;
                 }
             }
+        }
+
+        public List<Item> GetItemList()
+        {
+            LoadAll();
+            return _items;
         }
 
         public int GetFollowingId()

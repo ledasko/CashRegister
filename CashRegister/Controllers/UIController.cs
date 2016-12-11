@@ -16,6 +16,11 @@ namespace CashRegister.Controllers
         static UserRepository userRepository;
         static ReceiptRepository receiptRepository;
 
+        static User currentlyLogged;
+
+        static bool loggedBasic = false;
+        static bool loggedAdmin = false;
+
         public static void StartApp()
         {
             LoadRepositories();
@@ -24,8 +29,10 @@ namespace CashRegister.Controllers
 
         public static void LoginMenu()
         {
+            Console.WriteLine("LOGIN MENU");
             Console.WriteLine("1. Login");
             Console.WriteLine("2. Register");
+            Console.WriteLine("3. Admin information");
             Console.WriteLine("0. Exit application");
             Console.Write("Select option by typing the number in front of it: ");
             LoginActions();
@@ -33,14 +40,20 @@ namespace CashRegister.Controllers
 
         public static void LoggedMenu()
         {
-            Console.WriteLine("1. Add items");
+            Console.WriteLine("Cash register options.");
+            if (loggedAdmin || loggedBasic)
+                Console.WriteLine("You are currently logged in as " + currentlyLogged.Username + " (" + currentlyLogged.Type + ")");
+            if (loggedAdmin)
+                Console.WriteLine("1. Add items");
             Console.WriteLine("2. Print items");
             Console.WriteLine("3. New receipt");
             Console.WriteLine("4. Print receipt details");
             Console.WriteLine("5. Receipt report");
+            if (loggedAdmin)
+                Console.WriteLine("6. Accout management");
             Console.WriteLine("0. Exit application");
             Console.Write("Select option by typing the number in front of it: ");
-            LoggedInActions();
+            LoggedActions();
         }
 
         private static void LoadRepositories()
@@ -53,6 +66,7 @@ namespace CashRegister.Controllers
         private static void LoginActions()
         {
             int option = int.Parse(Console.ReadLine());
+            Console.WriteLine();
 
             switch (option)
             {
@@ -62,21 +76,34 @@ namespace CashRegister.Controllers
                 case 2:
                     RegisterUser();
                     break;
+                case 3:
+                    AdminInfo();
+                    break;
                 case 0:
                     ExitApp();
                     break;
+                default:
+                    LoginMenu();
+                    break;
             }
-
         }
 
-        private static void LoggedInActions()
+        private static void LoggedActions()
         {
             int option = int.Parse(Console.ReadLine());
+            Console.WriteLine();
 
             switch (option)
             {
                 case 1:
-                    ItemInput();
+                    if (loggedAdmin)
+                    {
+                        ItemInput();
+                    }
+                    else
+                    {
+                        Console.WriteLine("You are not authorized for this option.");
+                    }
                     break;
                 case 2:
                     ItemOutput();
@@ -84,7 +111,22 @@ namespace CashRegister.Controllers
                 case 0:
                     ExitApp();
                     break;
+                case 6:
+                    if (loggedAdmin)
+                    {
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("You are not authorized for this option.");
+                    }
+                    break;
+                default:
+                    LoggedMenu();
+                    break;
             }
+
+            LoggedMenu();
         }
 
         private static void RegisterUser()
@@ -107,11 +149,21 @@ namespace CashRegister.Controllers
             Console.Write("Password: ");
             string password = Console.ReadLine();
 
-            User user = userRepository.GetByUsername(username);
+            currentlyLogged = userRepository.GetByUsername(username);
 
-            if (user != null && user.Password.Equals(password))
+            if (currentlyLogged != null && currentlyLogged.Password.Equals(password))
             {
                 Console.WriteLine("You have successfully logged in.");
+                if (currentlyLogged.Type.Equals(UserType.ADMIN))
+                {
+                    loggedAdmin = true;
+                }
+                else if (currentlyLogged.Type.Equals(UserType.BASIC))
+                {
+                    loggedBasic = true;
+                }
+                Console.WriteLine();
+
                 LoggedMenu();
             }
             else
@@ -144,11 +196,29 @@ namespace CashRegister.Controllers
                     itemRepository.Add(itemN);
                     break;
             }
+
+            LoggedMenu();
         }
 
         private static void ItemOutput()
         {
+            Console.WriteLine("Listing all items in database.");
+            foreach (Item i in itemRepository.GetItemList())
+            {
+                Console.WriteLine(i.ToString());
+            }
+            Console.WriteLine();
+            LoggedMenu();
+        }
 
+        private static void AdminInfo()
+        {
+            Console.WriteLine("Admin account information: ");
+            Console.WriteLine("Username: admin");
+            Console.WriteLine("Password: admin");
+            Console.WriteLine();
+
+            LoginMenu();
         }
 
         private static void ExitApp()
