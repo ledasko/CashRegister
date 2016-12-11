@@ -14,6 +14,6 @@ namespace CashRegister.Repository
         void Save();
 
         User GetByUsername(string username);
-        List<User> GetAllUser();
+        void GetAllUser();
     }
 }

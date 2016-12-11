@@ -11,17 +11,17 @@ namespace CashRegister.Model
     [Serializable]
     class Item : EntityBase<int>
     {
-        public Item(string name, float price, int taxModifier) : base(0)
+        public Item(int id, string name, float price, int taxModifier, Quantify volume) : base(id)
         {
             Name = name;
             Price = price;
             TaxModifier = taxModifier;
-
+            Volume = volume;
         }
 
-        string Name { get; set; }
-        float Price { get; set; }
-        int TaxModifier { get; set; }
-        Quantify Volume { get; set; }
+        public string Name { get; set; }
+        public float Price { get; set; }
+        public int TaxModifier { get; set; }
+        public Quantify Volume { get; set; }
     }
 }

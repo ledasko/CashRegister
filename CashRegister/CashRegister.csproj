@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="Accessories\DataTypes.cs" />
     <Compile Include="Accessories\Quantify.cs" />
+    <Compile Include="Accessories\UserType.cs" />
+    <Compile Include="Controllers\UIController.cs" />
     <Compile Include="DAL\DataLoad.cs" />
     <Compile Include="DAL\ItemRepository.cs" />
     <Compile Include="DAL\ReceiptRepository.cs" />

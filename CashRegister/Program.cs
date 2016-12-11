@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using CashRegister.Controllers;
+
 namespace CashRegister
 {
     class Program
@@ -13,7 +15,7 @@ namespace CashRegister
         /// </summary>
         static void Main()
         {
-
+            UIController.StartApp();
         }
     }
 }

@@ -11,4 +11,6 @@ namespace CashRegister
 
     [Serializable]
     public class UsernameAlreadyExists : CashRegisterBaseException { }
+    public class ItemAlreadyExists : CashRegisterBaseException { }
+    public class IdAlreadyExists : CashRegisterBaseException { }
 }

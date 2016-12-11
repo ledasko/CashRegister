@@ -17,5 +17,6 @@ namespace CashRegister.Repository
 
         Item GetById(int itemId);
         Item GetByName(string itemName);
+        void GetAll();
     }
 }
