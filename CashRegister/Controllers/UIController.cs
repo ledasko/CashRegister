@@ -10,6 +10,9 @@ using CashRegister.Accessories;
 
 namespace CashRegister.Controllers
 {
+    /// <summary>
+    /// Entry controllers for the UI elements.
+    /// </summary>
     class UIController
     {
         static ItemRepository itemRepository;
@@ -263,7 +266,7 @@ namespace CashRegister.Controllers
                 }
                 else
                 {
-                    Console.WriteLine("Select quantity of item: ");
+                    Console.WriteLine(item.Volume.Equals(Quantify.KG) ? "Select quantity of item: (float - comma)" : "Select quantity of item: (int)");
                     float size = float.Parse(Console.ReadLine());
                     Console.WriteLine(item.Volume.Equals(Quantify.KG)
                         ? "You have chosen " + size + " kilograms."
