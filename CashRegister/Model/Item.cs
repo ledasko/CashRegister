@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using CashRegister.Accessories;
+
 namespace CashRegister.Model
 {
     class Item : EntityBase<int>
@@ -13,10 +15,12 @@ namespace CashRegister.Model
             Name = name;
             Price = price;
             TaxModifier = taxModifier;
+
         }
 
         string Name { get; set; }
         float Price { get; set; }
         int TaxModifier { get; set; }
+        Quantify Volume { get; set; }
     }
 }

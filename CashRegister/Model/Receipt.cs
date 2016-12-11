@@ -8,13 +8,13 @@ namespace CashRegister.Model
 {
     class Receipt : EntityBase<int>
     {
-        public Receipt(DateTime dateOfPurchase, List<Item> receiptList) : base(0)
+        public Receipt(DateTime dateOfPurchase, List<Quantity> receiptList) : base(0)
         {
             DateOfPurchase = dateOfPurchase;
             ReceiptList = receiptList;
         }
         DateTime DateOfPurchase { get; set; }
-        List<Item> ReceiptList { get; set; }
+        List<Quantity> ReceiptList { get; set; }
         float Total { get; set; }
 
     }
