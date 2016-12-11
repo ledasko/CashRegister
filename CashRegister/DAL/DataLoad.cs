@@ -31,7 +31,7 @@ namespace CashRegister.DAL
             string dir = @"c:\temp";
             string serializationFile = Path.Combine(dir, dataType + ".bin");
 
-            using (Stream stream = File.Open(serializationFile, FileMode.OpenOrCreate))
+            using (Stream stream = File.Open(serializationFile, FileMode.Open))
             {
                 var bFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
 
