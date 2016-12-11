@@ -8,14 +8,12 @@ using CashRegister.Model;
 
 namespace CashRegister.Repository
 {
-    interface IItemRepository
+    interface IUserRepository
     {
-        void Add(Item item);
-        void Update(Item item);
-        void Remove(Item item);
+        void Add(User user);
         void Save();
 
-        Item GetById(int itemId);
-        Item GetByName(string itemName);
+        User GetByUsername(string username);
+        List<User> GetAllUser();
     }
 }

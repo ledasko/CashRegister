@@ -13,6 +13,7 @@ namespace CashRegister.Repository
         void Add(Receipt receipt);
         void Update(Receipt receipt);
         void Remove(Receipt receipt);
+        void Save();
 
         Receipt GetById(int receiptId);
         List<Receipt> GetByDate(DateTime receiptDate);

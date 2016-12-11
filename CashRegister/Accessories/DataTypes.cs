@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace CashRegister.Accessories
 {
-    enum Quantify : int
+    enum DataTypes : int
     {
-        KG = 1,
-        N = 2
+        USER = 1,
+        ITEM = 2,
+        RECEIPT = 3
     }
 }

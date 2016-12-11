@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CashRegister.Accessories
+using CashRegister.Repository;
+
+namespace CashRegister.DAL
 {
-    enum Quantify : int
+    class UserRepository : IUserRepository
     {
-        KG = 1,
-        N = 2
     }
 }

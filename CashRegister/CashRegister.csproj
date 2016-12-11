@@ -43,9 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accessories\DataTypes.cs" />
     <Compile Include="Accessories\Quantify.cs" />
+    <Compile Include="DAL\DataLoad.cs" />
     <Compile Include="DAL\ItemRepository.cs" />
     <Compile Include="DAL\ReceiptRepository.cs" />
+    <Compile Include="DAL\UserRepository.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Model\EntityBase.cs" />
     <Compile Include="Model\Item.cs" />
@@ -56,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IItemRepository.cs" />
     <Compile Include="Repository\IReceiptRepository.cs" />
+    <Compile Include="Repository\IUserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
