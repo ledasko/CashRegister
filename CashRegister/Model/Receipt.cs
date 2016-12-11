@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CashRegister.Model
 {
+    /// <summary>
+    /// Receipt which signifies a transaction made in a store.
+    /// </summary>
     [Serializable]
     class Receipt : EntityBase<int>
     {
@@ -17,6 +20,11 @@ namespace CashRegister.Model
         public DateTime DateOfPurchase { get; set; }
         public List<Quantity> ReceiptList { get; set; }
         public float Total { get; set; }
+
+        public string ToString()
+        {
+            return DateOfPurchase + " - (" + ReceiptList.Count + ") ";
+        }
 
     }
 }

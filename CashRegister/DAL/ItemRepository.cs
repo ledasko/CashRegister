@@ -15,6 +15,11 @@ namespace CashRegister.DAL
     {
         private static List<Item> _items = new List<Item>();
         private static int _nextId = 1;
+
+        /// <summary>
+        /// Adds item in to the list and then persists it.
+        /// </summary>
+        /// <param name="item">Item to be added.</param>
         public void Add(Item item)
         {
             if (_items.Any(i => i.Name == item.Name))
@@ -28,7 +33,9 @@ namespace CashRegister.DAL
 
         public Item GetById(int itemId)
         {
-            throw new NotImplementedException();
+            Item item = _items.Where(i => i.Id == itemId).Single();
+
+            return item;
         }
 
         public Item GetByName(string itemName)
@@ -41,6 +48,9 @@ namespace CashRegister.DAL
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Persists data to file.
+        /// </summary>
         public void Save()
         {
             using (Stream stream = File.Open("item.bin", FileMode.Create))
@@ -56,6 +66,9 @@ namespace CashRegister.DAL
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Loads all items from file to list.
+        /// </summary>
         public void LoadAll()
         {
             using (Stream stream = File.Open("item.bin", FileMode.Open))

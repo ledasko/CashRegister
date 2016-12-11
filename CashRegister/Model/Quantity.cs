@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CashRegister.Model
 {
+    /// <summary>
+    /// Used to define the quantity of items sold per receipt.
+    /// </summary>
     [Serializable]
     class Quantity
     {
@@ -17,5 +20,10 @@ namespace CashRegister.Model
 
         Item Item { get; set; }
         float ItemQuantity { get; set; }
+
+        public string ToString()
+        {
+            return Item.Name + " - " + ItemQuantity;
+        }
     }
 }

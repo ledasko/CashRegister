@@ -8,6 +8,9 @@ using CashRegister.Accessories;
 
 namespace CashRegister.Model
 {
+    /// <summary>
+    /// Model representing an item to be sold in the store. Each item has a name, price, tax and volume which is used to categorize how the item is sold.
+    /// </summary>
     [Serializable]
     class Item : EntityBase<int>
     {

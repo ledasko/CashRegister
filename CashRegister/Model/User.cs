@@ -8,6 +8,9 @@ using CashRegister.Accessories;
 
 namespace CashRegister.Model
 {
+    /// <summary>
+    /// Basic user data used to login in to the register.
+    /// </summary>
     [Serializable]
     class User : EntityBase<int>
     {

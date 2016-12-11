@@ -21,23 +21,27 @@ namespace CashRegister.Controllers
         static bool loggedBasic = false;
         static bool loggedAdmin = false;
 
+        #region Configuration
         public static void StartApp()
         {
             LoadRepositories();
             LoginMenu();
         }
 
-        public static void LoginMenu()
+        private static void LoadRepositories()
         {
-            Console.WriteLine("LOGIN MENU");
-            Console.WriteLine("1. Login");
-            Console.WriteLine("2. Register");
-            Console.WriteLine("3. Admin information");
-            Console.WriteLine("0. Exit application");
-            Console.Write("Select option by typing the number in front of it: ");
-            LoginActions();
+            itemRepository = new ItemRepository();
+            userRepository = new UserRepository();
+            receiptRepository = new ReceiptRepository();
         }
 
+        private static void ExitApp()
+        {
+            System.Environment.Exit(0);
+        }
+        #endregion
+
+        #region Logged In
         public static void LoggedMenu()
         {
             Console.WriteLine("Cash register options.");
@@ -47,8 +51,8 @@ namespace CashRegister.Controllers
                 Console.WriteLine("1. Add items");
             Console.WriteLine("2. Print items");
             Console.WriteLine("3. New receipt");
-            Console.WriteLine("4. Print receipt details");
-            Console.WriteLine("5. Receipt report");
+            //Console.WriteLine("4. Print receipt details");
+            Console.WriteLine("4. Receipt report");
             if (loggedAdmin)
                 Console.WriteLine("6. Accout management");
             if (loggedAdmin || loggedBasic)
@@ -58,11 +62,70 @@ namespace CashRegister.Controllers
             LoggedActions();
         }
 
-        private static void LoadRepositories()
+        private static void LoggedActions()
         {
-            itemRepository = new ItemRepository();
-            userRepository = new UserRepository();
-            receiptRepository = new ReceiptRepository();
+            int option = int.Parse(Console.ReadLine());
+            Console.WriteLine();
+
+            switch (option)
+            {
+                case 1:
+                    if (loggedAdmin)
+                    {
+                        ItemInput();
+                        GoToLoggedMenu();
+                    }
+                    else
+                    {
+                        Console.WriteLine("You are not authorized for this option.");
+                    }
+                    break;
+                case 2:
+                    ItemOutput();
+                    GoToLoggedMenu();
+                    break;
+                case 3:
+                    NewReceipt();
+                    break;
+                case 4:
+                    ReceiptMenu();
+                    break;
+                case 0:
+                    ExitApp();
+                    break;
+                case 6:
+                    if (loggedAdmin)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else
+                    {
+                        Console.WriteLine("You are not authorized for this option.");
+                    }
+                    break;
+                case 9:
+                    if (loggedBasic || loggedAdmin)
+                        Logout();
+                    break;
+                default:
+                    GoToLoggedMenu();
+                    break;
+            }
+
+            GoToLoggedMenu();
+        }
+        #endregion
+
+        #region Login
+        public static void LoginMenu()
+        {
+            Console.WriteLine("LOGIN MENU");
+            Console.WriteLine("1. Login");
+            Console.WriteLine("2. Register");
+            Console.WriteLine("3. Admin information");
+            Console.WriteLine("0. Exit application");
+            Console.Write("Select option by typing the number in front of it: ");
+            LoginActions();
         }
 
         private static void LoginActions()
@@ -88,51 +151,6 @@ namespace CashRegister.Controllers
                     LoginMenu();
                     break;
             }
-        }
-
-        private static void LoggedActions()
-        {
-            int option = int.Parse(Console.ReadLine());
-            Console.WriteLine();
-
-            switch (option)
-            {
-                case 1:
-                    if (loggedAdmin)
-                    {
-                        ItemInput();
-                    }
-                    else
-                    {
-                        Console.WriteLine("You are not authorized for this option.");
-                    }
-                    break;
-                case 2:
-                    ItemOutput();
-                    break;
-                case 0:
-                    ExitApp();
-                    break;
-                case 6:
-                    if (loggedAdmin)
-                    {
-
-                    }
-                    else
-                    {
-                        Console.WriteLine("You are not authorized for this option.");
-                    }
-                    break;
-                case 9:
-                    if (loggedBasic || loggedAdmin)
-                        Logout();
-                    break;
-                default:
-                    LoggedMenu();
-                    break;
-            }
-
-            LoggedMenu();
         }
 
         private static void RegisterUser()
@@ -178,7 +196,9 @@ namespace CashRegister.Controllers
                 LoginMenu();
             }
         }
+        #endregion
 
+        #region Items
         private static void ItemInput()
         {
             Console.Write("Name: ");
@@ -202,8 +222,6 @@ namespace CashRegister.Controllers
                     itemRepository.Add(itemN);
                     break;
             }
-
-            LoggedMenu();
         }
 
         private static void ItemOutput()
@@ -214,9 +232,136 @@ namespace CashRegister.Controllers
                 Console.WriteLine(i.ToString());
             }
             Console.WriteLine();
-            LoggedMenu();
         }
 
+        private static void GoToLoggedMenu()
+        {
+            LoggedMenu();
+        }
+        #endregion
+
+        #region Receipt
+        private static void NewReceipt()
+        {
+            Console.Write("NEW RECEIPT - ");
+            DateTime now = DateTime.Now;
+            Console.WriteLine(now);
+
+            bool done = false;
+            List<Quantity> quantityOfItems = new List<Quantity>();
+
+            while (!done)
+            {
+                ItemOutput();
+                Console.Write("Choose an item to add to receipt: ");
+                int option = int.Parse(Console.ReadLine());
+                Item item = null;
+
+                if ((item = itemRepository.GetById(option)) == null)
+                {
+                    Console.WriteLine("Item you have chosen does not exist.");
+                }
+                else
+                {
+                    Console.WriteLine("Select quantity of item: ");
+                    float size = float.Parse(Console.ReadLine());
+                    Console.WriteLine(item.Volume.Equals(Quantify.KG)
+                        ? "You have chosen " + size + " kilograms."
+                        : "You have chosen " + size + " pieces.");
+
+                    quantityOfItems.Add(new Quantity(item, size));
+
+                    Console.WriteLine("Currently adding: ");
+                    foreach (Quantity q in quantityOfItems)
+                    {
+                        Console.WriteLine(q.ToString());
+                    }
+
+                    Console.WriteLine();
+                    Console.WriteLine("1. Confirm receipt");
+                    Console.WriteLine("2. More..");
+                    Console.WriteLine("3. Cancel");
+                    option = int.Parse(Console.ReadLine());
+
+                    switch (option)
+                    {
+                        case 1:
+                            done = true;
+                            receiptRepository.Add(new Receipt(receiptRepository.GetFollowingId(), now, quantityOfItems));
+                            break;
+                        case 2:
+                            done = false;
+                            break;
+                        case 3:
+                            done = true;
+                            break;
+                    }
+                }
+            }
+
+            GoToLoggedMenu();
+        }
+        private static void ReceiptMenu()
+        {
+            Console.WriteLine("Receipt menu.");
+            Console.WriteLine();
+            Console.WriteLine("1. Receipt report by day");
+            Console.WriteLine("2. Receipt report by item");
+            Console.WriteLine("3. All receipts");
+            Console.WriteLine("9. Back to the cash register menu");
+            Console.WriteLine("0. Exit application");
+            Console.Write("Select option by typing the number in front of it: ");
+
+            ReceiptActions();
+        }
+
+        private static void ReceiptActions()
+        {
+            int option = int.Parse(Console.ReadLine());
+            Console.WriteLine();
+
+            switch (option)
+            {
+                case 1:
+                    ReceiptByDay();
+                    break;
+                case 2:
+                    ReceiptByItem();
+                    break;
+                case 3:
+                    ReceiptAll();
+                    break;
+                case 9:
+                    GoToLoggedMenu();
+                    break;
+                case 0:
+                    ExitApp();
+                    break;
+            }
+        }
+
+        private static void ReceiptAll()
+        {
+            Console.WriteLine("Listing all receipts in database.");
+            foreach (Receipt r in receiptRepository.GetReceiptList())
+            {
+                Console.WriteLine(r.ToString());
+            }
+            Console.WriteLine();
+        }
+
+        private static void ReceiptByDay()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ReceiptByItem()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Logout
         private static void Logout()
         {
             if (loggedAdmin || loggedBasic || currentlyLogged != null)
@@ -227,7 +372,9 @@ namespace CashRegister.Controllers
 
             LoginMenu();
         }
+        #endregion
 
+        #region Admin
         private static void AdminInfo()
         {
             Console.WriteLine("Admin account information: ");
@@ -237,10 +384,6 @@ namespace CashRegister.Controllers
 
             LoginMenu();
         }
-
-        private static void ExitApp()
-        {
-            System.Environment.Exit(0);
-        }
+        #endregion
     }
 }
