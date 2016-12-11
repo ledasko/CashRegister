@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CashRegister.Model
 {
+    [Serializable]
     class User : EntityBase<int>
     {
         public User(string username, string password) : base(0)

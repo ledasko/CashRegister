@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CashRegister.Model
 {
+    [Serializable]
     class Quantity
     {
         public Quantity(Item item, float itemQuantity)

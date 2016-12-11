@@ -8,6 +8,7 @@ using CashRegister.Accessories;
 
 namespace CashRegister.Model
 {
+    [Serializable]
     class Item : EntityBase<int>
     {
         public Item(string name, float price, int taxModifier) : base(0)

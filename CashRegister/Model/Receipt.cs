@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CashRegister.Model
 {
+    [Serializable]
     class Receipt : EntityBase<int>
     {
         public Receipt(DateTime dateOfPurchase, List<Quantity> receiptList) : base(0)
